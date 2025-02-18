@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Algo } from "../../Algorithms/Algo";
 import Table from "./Table";
+import Graph from "./Graph"; // Import the Graph component
 import { motion } from "framer-motion";
 
 const Output = () => {
@@ -46,6 +47,8 @@ const Output = () => {
         <div className="mt-6">
           <Table value={solvedProcesses} />
         </div>
+        {/* Add the Graph component here */}
+        <Graph solvedProcessesInfo={solvedProcesses} />
       </motion.div>
     );
   }
