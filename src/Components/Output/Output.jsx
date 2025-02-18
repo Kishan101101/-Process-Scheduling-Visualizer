@@ -14,7 +14,7 @@ const Output = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="mt-10 p-6 bg-[#b8b09f] rounded-2xl shadow-lg text-center text-gray-900"
+        className="mt-10 p-8 bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl shadow-black border border-gray-200 text-center text-gray-900 w-full max-w-5xl mx-auto"
       >
         <h2 className="text-3xl font-semibold">Output</h2>
         <p className="text-lg mt-2">Table will be shown here...</p>
@@ -28,6 +28,7 @@ const Output = () => {
       timeQuantum,
       priority
     );
+    console.log(result);
     const { solvedProcesses } = result || {};
 
     return (

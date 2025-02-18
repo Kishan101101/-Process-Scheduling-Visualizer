@@ -1,9 +1,9 @@
-export const pp = (arrivalTime, burstTime, priorities) => {
+export const pp = (arrivalTime, burstTime, priority) => {
   let processes = arrivalTime.map((at, i) => ({
     job: (i + 10).toString(36).toUpperCase(),
     at,
     bt: burstTime[i],
-    priority: priorities[i],
+    priority: priority[i],
   }));
 
   processes.sort((a, b) => a.at - b.at || a.priority - b.priority);
@@ -54,7 +54,7 @@ export const pp = (arrivalTime, burstTime, priorities) => {
   }
 
   return {
-    solvedProcessesInfo: solved.sort(
+    solvedProcesses: solved.sort(
       (a, b) => a.at - b.at || a.job.localeCompare(b.job)
     ),
   };

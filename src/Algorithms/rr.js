@@ -1,42 +1,50 @@
 export const rr = (arrivalTime, burstTime, timeQuantum) => {
-  let processes = arrivalTime.map((at, i) => ({
-    job: (i + 10).toString(36).toUpperCase(),
-    at,
-    bt: burstTime[i],
-  }));
+  let n = arrivalTime.length;
+  let remaining = [...burstTime]; // Remaining burst time
+  let wt = new Array(n).fill(0); // Waiting time array
+  let tat = new Array(n).fill(0); // Turnaround time array
+  let time = 0; // Current time
 
-  processes.sort((a, b) => a.at - b.at);
-  let remaining = Object.fromEntries(processes.map((p) => [p.job, p.bt]));
-  let queue = [processes[0]],
-    solved = [],
-    time = processes[0].at;
+  while (true) {
+    let done = true;
 
-  while (queue.length || processes.some((p) => remaining[p.job] > 0)) {
-    if (!queue.length) {
-      queue.push(processes.find((p) => remaining[p.job] > 0));
-      time = queue[0].at;
+    for (let i = 0; i < n; i++) {
+      if (remaining[i] > 0) {
+        done = false; // There is a pending process
+
+        if (remaining[i] > timeQuantum) {
+          time += timeQuantum;
+          remaining[i] -= timeQuantum;
+        } else {
+          time += remaining[i];
+          wt[i] = time - burstTime[i] - arrivalTime[i]; // Waiting time calculation
+          remaining[i] = 0;
+        }
+      }
     }
 
-    let p = queue.shift(),
-      executeTime = Math.min(remaining[p.job], timeQuantum);
-    (remaining[p.job] -= executeTime), (time += executeTime);
-
-    processes
-      .filter((n) => n.at <= time && remaining[n.job] > 0 && !queue.includes(n))
-      .forEach((n) => queue.push(n));
-    if (remaining[p.job] > 0) queue.push(p);
-    else
-      solved.push({
-        ...p,
-        ft: time,
-        tat: time - p.at,
-        wat: time - p.at - p.bt,
-      });
+    if (done) break;
   }
 
+  for (let i = 0; i < n; i++) {
+    tat[i] = burstTime[i] + wt[i]; // Turnaround Time = Burst Time + Waiting Time
+  }
+
+  let totalWT = wt.reduce((a, b) => a + b, 0);
+  let totalTAT = tat.reduce((a, b) => a + b, 0);
+
+  let solved = arrivalTime.map((at, i) => ({
+    job: (i + 10).toString(36).toUpperCase(), // Naming Jobs A, B, C...
+    at,
+    bt: burstTime[i],
+    ft: tat[i] + at, // Finish Time
+    tat: tat[i],
+    wat: wt[i],
+  }));
+
+  solved.sort((a, b) => a.at - b.at || a.job.localeCompare(b.job));
+
   return {
-    solvedProcessesInfo: solved.sort(
-      (a, b) => a.at - b.at || a.job.localeCompare(b.job)
-    ),
+    solvedProcesses: solved,
   };
 };

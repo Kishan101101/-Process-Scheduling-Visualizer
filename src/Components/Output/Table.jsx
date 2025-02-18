@@ -30,71 +30,51 @@ const Table = ({ value }) => {
       className="overflow-x-auto"
     >
       {solvedProcessesInfo.length > 0 ? (
-        <div className="bg-white/30 backdrop-blur-lg rounded-3xl shadow-2xl shadow-black border border-gray-200 p-6">
-          <table className="w-full text-sm text-left border-collapse">
-            <thead className="bg-gray-700 text-white rounded-t-lg">
-              <tr>
-                <th className="px-4 py-3 border border-gray-400">Job</th>
-                <th className="px-4 py-3 border border-gray-400">
-                  Arrival Time
-                </th>
-                <th className="px-4 py-3 border border-gray-400">Burst Time</th>
-                <th className="px-4 py-3 border border-gray-400">
-                  Finish Time
-                </th>
-                <th className="px-4 py-3 border border-gray-400">
-                  Turn Around Time
-                </th>
-                <th className="px-4 py-3 border border-gray-400">
-                  Waiting Time
-                </th>
+        <table className="w-full text-sm text-left border-collapse border border-gray-400">
+          <thead className="bg-gray-700 text-white">
+            <tr>
+              <th className="px-4 py-3 border border-gray-400">Job</th>
+              <th className="px-4 py-3 border border-gray-400">Arrival Time</th>
+              <th className="px-4 py-3 border border-gray-400">Burst Time</th>
+              <th className="px-4 py-3 border border-gray-400">Finish Time</th>
+              <th className="px-4 py-3 border border-gray-400">
+                Turn Around Time
+              </th>
+              <th className="px-4 py-3 border border-gray-400">Waiting Time</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {solvedProcessesInfo.map((item, index) => (
+              <tr
+                key={`process-row-${item.job}-${index}`} // Unique key using job and index
+                className="hover:bg-gray-100 transition"
+              >
+                <td className="px-4 py-2 border border-gray-400">{item.job}</td>
+                <td className="px-4 py-2 border border-gray-400">{item.at}</td>
+                <td className="px-4 py-2 border border-gray-400">{item.bt}</td>
+                <td className="px-4 py-2 border border-gray-400">{item.ft}</td>
+                <td className="px-4 py-2 border border-gray-400">{item.tat}</td>
+                <td className="px-4 py-2 border border-gray-400">{item.wat}</td>
               </tr>
-            </thead>
-            <tbody className="bg-white/50">
-              {solvedProcessesInfo.map((item, index) => (
-                <tr
-                  key={`process-row-${item.job}`}
-                  className="hover:bg-gray-100 transition"
-                >
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.job}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.at}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.bt}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.ft}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.tat}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300">
-                    {item.wat}
-                  </td>
-                </tr>
-              ))}
-              <tr className="bg-gray-200 font-semibold">
-                <td
-                  colSpan={4}
-                  className="px-4 py-2 text-right border border-gray-300"
-                >
-                  Average
-                </td>
-                <td className="px-4 py-2 border border-gray-300">
-                  {totalTAT} / {numberOfProcesses} ={" "}
-                  {precisionRound(averageTAT, 3)}
-                </td>
-                <td className="px-4 py-2 border border-gray-300">
-                  {totalWAT} / {numberOfProcesses} ={" "}
-                  {precisionRound(averageWAT, 3)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            ))}
+            <tr className="bg-gray-200 font-semibold">
+              <td
+                colSpan={4}
+                className="px-4 py-2 text-right border border-gray-400"
+              >
+                Average
+              </td>
+              <td className="px-4 py-2 border border-gray-400">
+                {totalTAT} / {numberOfProcesses} ={" "}
+                {precisionRound(averageTAT, 3)}
+              </td>
+              <td className="px-4 py-2 border border-gray-400">
+                {totalWAT} / {numberOfProcesses} ={" "}
+                {precisionRound(averageWAT, 3)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       ) : (
         <p className="text-center text-gray-700">No data available</p>
       )}

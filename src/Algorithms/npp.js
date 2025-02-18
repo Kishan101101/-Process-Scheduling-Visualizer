@@ -28,7 +28,7 @@ export const npp = (arrivalTime, burstTime, priorities) => {
   }
 
   return {
-    solvedProcessesInfo: solved.sort(
+    solvedProcesses: solved.sort(
       (a, b) => a.at - b.at || a.job.localeCompare(b.job)
     ),
   };
